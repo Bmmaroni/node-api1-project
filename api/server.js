@@ -46,7 +46,14 @@ server.post('/api/users', (req, res) => {
 
 server.get('/api/users', (req, res) => {
   const users = db.find()
-  res.json(users)
+
+  if (users) {
+    res.json(users)
+  } else {
+    res.status(500).json({
+      message: "The users information could not be retrieved"
+    })
+  }
 })
 
 server.get('/api/users/:id', (req, res) => {
@@ -54,9 +61,13 @@ server.get('/api/users/:id', (req, res) => {
 
   if (user) {
     res.json(user)
-  } else {
+  } else if (req.params.id !== user.id){
     res.status(404).json({
       message: "The user with the specified ID does not exist"
+    })
+  } else {
+    res.status(500).json({
+      message: "The user information could not be retrieved"
     })
   }
 })
