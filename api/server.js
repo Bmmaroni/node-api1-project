@@ -1,24 +1,47 @@
 // BUILD YOUR SERVER HERE
 const express = require('express')
 const db = require('./model')
+// import shortid and add to object of newUser?
 
 const server = express()
 
 server.use(express.json())
 
 server.post('/api/users', (req, res) => {
-  const newUser = db.insert({
-    name: req.body.name,
-    bio: req.body.bio
-  })
+  // const userData = req.body
 
-  if (!req.body.name || !req.body.bio) {
-    res.status(400).json({
-      message: "Please provide name and bio for the user"
+  // db.insert(userData)
+  //   .then(newUser => {
+  //     if (newUser) {
+  //       res.status(201).json(newUser)
+  //     } else if (!req.body.name || !req.body.bio) {
+  //       res.status(400).json({
+  //         message: "Please provide name and bio for the user"
+  //       })
+  //     }
+  //   })
+  //   .catch(err => {
+  //     res.status(500).json({
+  //       message: "There was an error while saving the user to the database"
+  //     })
+  //   })
+
+    const newUser = db.insert({
+      name: req.body.name,
+      bio: req.body.bio
     })
-  } else {
-    res.status(201).json(newUser)
-  }
+
+      if (newUser) {
+        res.status(201).json(newUser)
+      } else if (!req.body.name || !req.body.bio) {
+        res.status(400).json({
+          message: "Please provide name and bio for the user"
+        })
+      } else {
+      res.status(500).json({
+        message: "There was an error while saving the user to the database"
+      })
+    }
 })
 
 server.get('/api/users', (req, res) => {
