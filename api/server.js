@@ -27,7 +27,7 @@ server.post('/api/users', (req, res) => {
     })
 })
 
-server.get('/api/users', (req, res) => {
+server.get('/', (req, res) => {
   
   db.find()
     .then(users => {
